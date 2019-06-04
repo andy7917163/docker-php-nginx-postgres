@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ${APP_CODE_PATH_HOST}:/app
+      - ${NGINX_SITES_PATH}/site.conf:/etc/nginx/conf.d/site.conf
+      - ${NGINX_LOGS_PATH}:/var/log/nginx
+    environment:
+      TZ: Asia/Taipei
+    # command: "chgrp -R www-data /app"
+    depends_on:
+      - php
+      - postgres
+  php:
+    image: php:7.2-fpm
+    container_name: php
+    volumes:
+      - ${APP_CODE_PATH_HOST}:/app
+  postgres:
+    build: ./postgres
+    container_name: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - ${POSTGRES_PORT}:5432
