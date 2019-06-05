@@ -5,14 +5,13 @@ services:
     image: nginx:latest
     container_name: nginx
     ports:
-      - "8080:80"
+      - "${NGINX_PORT}:80"
     volumes:
       - ${APP_CODE_PATH_HOST}:/app
       - ${NGINX_SITES_PATH}/site.conf:/etc/nginx/conf.d/site.conf
       - ${NGINX_LOGS_PATH}:/var/log/nginx
     environment:
       TZ: Asia/Taipei
-    # command: "chgrp -R www-data /app"
     depends_on:
       - php
       - postgres
