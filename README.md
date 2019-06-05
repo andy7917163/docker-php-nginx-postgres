@@ -21,10 +21,11 @@ Steps to work
     ```
     APP_CODE_PATH_HOST=../
     ```
-2. Check your docker
+2. Check and up docker-compose
     ```
     docker -v
     docker-compose -v
+    docker-compose up -d
     ```
 3. Then open http://php-docker.local:8080 
 > Change the domain name to your setting domain
