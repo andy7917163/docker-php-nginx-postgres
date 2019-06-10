@@ -20,6 +20,11 @@ services:
     container_name: php
     volumes:
       - ${APP_CODE_PATH_HOST}:/app
+  composer:
+    image: composer/composer:php7
+    command: install
+    volumes:
+      - ${APP_CODE_PATH_HOST}:/app
   postgres:
     build: ./postgres
     container_name: postgres
