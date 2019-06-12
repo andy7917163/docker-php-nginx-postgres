@@ -12,6 +12,8 @@ services:
       - ${NGINX_LOGS_PATH}:/var/log/nginx
     environment:
       TZ: Asia/Taipei
+    networks:
+      - web
     depends_on:
       - php
       - postgres
@@ -20,11 +22,15 @@ services:
     container_name: php
     volumes:
       - ${APP_CODE_PATH_HOST}:/app
+    networks:
+      - web
   composer:
     image: composer/composer:php7
     command: install
     volumes:
       - ${APP_CODE_PATH_HOST}:/app
+    networks:
+      - web
   postgres:
     build: ./postgres
     container_name: postgres
@@ -35,3 +41,8 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - ${POSTGRES_PORT}:5432
+    networks:
+      - web
+networks:
+  web:
+    driver: bridge
